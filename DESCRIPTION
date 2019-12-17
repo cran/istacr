@@ -2,8 +2,8 @@ Package: istacr
 Type: Package
 Title: Obtaining Open Data from Instituto Canario De Estadistica
         (ISTAC) API
-Version: 0.1.0
-Date: 2019-04-24
+Version: 0.1.1
+Date: 2019-12-17
 Authors@R: c(
     person("Alberto", "Gonzalez", email = "jgonyanp@gobiernodecanarias.org", role = c("aut", "cre"))
   )
@@ -15,7 +15,7 @@ LazyData: true
 Imports: jsonlite, curl
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-04-24 06:40:46 UTC; ext-anacgar
+Packaged: 2019-12-17 14:12:28 UTC; Andres Nacimiento
 Author: Alberto Gonzalez [aut, cre]
 Repository: CRAN
-Date/Publication: 2019-05-03 13:50:03 UTC
+Date/Publication: 2019-12-17 15:30:02 UTC

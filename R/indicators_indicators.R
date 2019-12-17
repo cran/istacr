@@ -92,7 +92,7 @@ get_indicators_code <- function(indicatorCode) {
 #' @param fields (string) Allows you to customize the response by excluding fields.
 #'  The possible values are: \code{-observationsMetadata}.
 #' @examples
-#' get_indicators_code_data("AFILIACIONES")
+#' get_indicators_code_data("AFILIACIONES", fields = "-observationsMetadata")
 #' @export
 get_indicators_code_data <- function(indicatorCode, representation = NULL, granularity = NULL, fields = NULL) {
 

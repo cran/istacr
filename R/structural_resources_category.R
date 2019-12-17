@@ -273,7 +273,7 @@ get_structuralresources_category_schemes_agency_resource_version <- function(age
 #' @param orderBy (string) Field by which to sort the results.
 #' @examples
 #' get_structuralresources_category_schemes_agency_resource_version_categories(
-#'    "ISTAC", "TEMAS_CANARIAS", "01.000"
+#'    "ISTAC", "TEMAS_CANARIAS", "01.000", limit = 10
 #' )
 #' @export
 get_structuralresources_category_schemes_agency_resource_version_categories <- function(agencyID, resourceID, version, limit = 25, offset = 0, query = NULL, orderBy = NULL) {

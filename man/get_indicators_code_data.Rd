@@ -24,5 +24,5 @@ This function returns complete data (for all spacetime) of the indicator.
  of the measured fact.
 }
 \examples{
-get_indicators_code_data("AFILIACIONES")
+get_indicators_code_data("AFILIACIONES", fields = "-observationsMetadata")
 }
