@@ -54,7 +54,7 @@ get_indicators <- function(q = NULL, order = NULL, limit = 25, offset = 0, field
   }
 
   url <- get_url(api, path)
-  content <- fromJSON(url)
+  content <- get_content(url)
 
   return(content)
 }
@@ -76,7 +76,7 @@ get_indicators_code <- function(indicatorCode) {
   path <- "indicators"
 
   url <- get_url(api, path, resource = indicatorCode)
-  content <- fromJSON(url)
+  content <- get_content(url)
 
   return(content)
 }
@@ -118,7 +118,7 @@ get_indicators_code_data <- function(indicatorCode, representation = NULL, granu
   url <- get_url(api, path, resource = resource)
 
   # Get content
-  content <- fromJSON(url)
+  content <- get_content(url)
 
   return(content)
 }

@@ -4,8 +4,14 @@
 \alias{get_datasets_agency_resource_version}
 \title{Get datasets (agencyID / resourceID / version)}
 \usage{
-get_datasets_agency_resource_version(agencyID, resourceID, version,
-  dim = NULL, fields = NULL, lang = "es")
+get_datasets_agency_resource_version(
+  agencyID,
+  resourceID,
+  version,
+  dim = NULL,
+  fields = NULL,
+  lang = "es"
+)
 }
 \arguments{
 \item{agencyID}{(string) Identifier of the maintainer organization of the resource. A possible value is \code{ISTAC}.}
