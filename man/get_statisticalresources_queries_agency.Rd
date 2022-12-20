@@ -30,5 +30,5 @@ get_statisticalresources_queries_agency(
 This function allows to consult all the queries maintained by a certain organization.
 }
 \examples{
-get_statisticalresources_queries_agency(agencyid="ISTAC")
+get_statisticalresources_queries_agency(agencyid="ISTAC", limit=5)
 }

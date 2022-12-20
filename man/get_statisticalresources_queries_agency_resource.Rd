@@ -15,7 +15,7 @@ get_statisticalresources_queries_agency_resource(
 \arguments{
 \item{agencyid}{(string): Identifier of the maintainer organization of the resource. A possible value is ``ISTAC``.}
 
-\item{resourceid}{(string): Resource identifier. A possible value is ``C00010A_000002``.}
+\item{resourceid}{(string): Resource identifier. A possible value is ``C00005A_000004``.}
 
 \item{fields}{(string): Allows you to customize the response by excluding fields from it.
 - The possible values are ``-metadata`` and ``-data``.}
@@ -32,6 +32,6 @@ This function allows to obtain final data of a statistical query with a certain 
 \examples{
 get_statisticalresources_queries_agency_resource(
 agencyid="ISTAC",
-resourceid="C00017A_000001"
+resourceid="C00005A_000004"
 )
 }

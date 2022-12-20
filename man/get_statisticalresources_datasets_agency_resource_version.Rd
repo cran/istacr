@@ -38,7 +38,7 @@ identifier and that also maintains a certain organization.
 \examples{
 get_statisticalresources_datasets_agency_resource_version(
 agencyid="ISTAC",
-resourceid="C00010A_000002",
-version="001.000"
-)
+resourceid="C00010A_000012",
+version="001.000",
+dim="TIME_PERIOD:2009")
 }
