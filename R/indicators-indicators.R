@@ -12,6 +12,7 @@ INDICATORS_API = 'indicators'
 #' @param offset (int): Displacement. Result from which it is returned.  By default ``offset = 0``.
 #' @param fields (string): Use of the answer by adding new fields. Possible values are: ``+metadata``, ``+data`` and ``+observationsMetadata``.
 #' @param representation (string): Allows filtering the observations by their value. Its use only makes sense when ``+data`` and/or ``+observationsMetadata`` has been included.
+#' @import httr
 #' @examples
 #' get_indicators(
 #' q='id IN ("AFILIACIONES", "EMPLEO_REGISTRADO_AGRICULTURA")',
@@ -33,9 +34,10 @@ get_indicators <- function(q='', order='', limit=25, offset=0, fields='', repres
 #' indicator, allowing the compression of the measured fact; also through the data request
 #' the complete data (for all spacetime) of the indicator is provided.
 #' @param indicatorcode (string): an indicator code
+#' @import httr
 #' @examples
-#' get_indicators_code("AFILIACIONES")
-#' get_indicators_code("PARO_REGISTRADO")
+#' get_indicators_code("IPI_BASE_2021")
+#' get_indicators_code("IPI")
 #' @export
 get_indicators_code <- function(indicatorcode) {
   path = paste('indicators', indicatorcode, sep = '/')
@@ -52,14 +54,15 @@ get_indicators_code <- function(indicatorcode) {
 #' @param representation (string): Allows filtering the observations by their value.
 #' @param granularity (string): Allows to filter the observations through the granularities of the same.
 #' @param fields (string): Allows you to customize the response by excluding fields. The possible values are:
+#'   ``-observationsMetadata``.
 #' @param as_dataframe (bool): If True, this function returns a namedtuple with:
 #'   - dataframe: pandas dataframe built from API response.
 #'   - codelists: mapping between codes and representations for each column.
-#' ``-observationsMetadata``.
+#' @import httr
 #' @examples
-#' get_indicators_code_data("AFILIACIONES")
+#' get_indicators_code_data("IPC")
 #' @export
-get_indicators_code_data <- function(indicatorcode, representation='', granularity='', fields='', as_dataframe=F) {
+get_indicators_code_data <- function(indicatorcode, representation='', granularity='', fields='', as_dataframe=T) {
   path = paste('indicators', indicatorcode, 'data', sep = '/')
   url = build_entrypoint_url(
     INDICATORS_API, path, query_list = list(representation=representation, granularity=granularity, fields=fields)

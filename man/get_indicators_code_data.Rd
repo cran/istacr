@@ -9,7 +9,7 @@ get_indicators_code_data(
   representation = "",
   granularity = "",
   fields = "",
-  as_dataframe = F
+  as_dataframe = T
 )
 }
 \arguments{
@@ -19,12 +19,14 @@ get_indicators_code_data(
 
 \item{granularity}{(string): Allows to filter the observations through the granularities of the same.}
 
-\item{fields}{(string): Allows you to customize the response by excluding fields. The possible values are:}
+\item{fields}{(string): Allows you to customize the response by excluding fields. The possible values are:
+\code{-observationsMetadata}.}
 
 \item{as_dataframe}{(bool): If True, this function returns a namedtuple with:
-  - dataframe: pandas dataframe built from API response.
-  - codelists: mapping between codes and representations for each column.
-``-observationsMetadata``.}
+\itemize{
+\item dataframe: pandas dataframe built from API response.
+\item codelists: mapping between codes and representations for each column.
+}}
 }
 \description{
 This function returns complete data (for all spacetime) of the indicator.
@@ -33,5 +35,5 @@ indicator are offered through the metadata request, allowing the compression
 of the measured fact.
 }
 \examples{
-get_indicators_code_data("AFILIACIONES")
+get_indicators_code_data("IPC")
 }

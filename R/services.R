@@ -1,13 +1,15 @@
 require(jsonlite)
 require(utils)
+require(httr)
 
 API_ROOT_URL = 'https://datos.canarias.es/api/estadisticas/'
 API_VERSION = '1.0'
+ISTAC_API_KEY = 'dWcm6Nn4xVO3JyAsfnGMSg5Cm2lmDQpSj73vYAzLFuswu5X1fwbuGSXnB5iLaTiT'
+IBESTAT_API_KEY = 'ycpbugocdtSCeHYqVBkueEqipWyEQlY6KiviEPfKR2uDmvExY20eZm5VREyOM9P1'
 VALUE_ERROR = 'NaN'
 DEBUG = FALSE
 
 build_entrypoint_url <- function(api, path, query_list = list()) {
-  #lang='es', limit=25, offset=0, orderby='', query=''
   #encoded_query <- URLdecode(query) TODO subs build_query
   urlpath = paste0('/', api, '/v', API_VERSION,'/', path, build_query(query_list))
 
@@ -15,6 +17,7 @@ build_entrypoint_url <- function(api, path, query_list = list()) {
 }
 
 #' @importFrom utils URLencode
+#' @importFrom utils str
 build_query <- function(query_list) {
   result <- ""
   if(length(query_list) > 0) {
@@ -30,19 +33,26 @@ build_query <- function(query_list) {
   URLencode(result)
 }
 
+get_api_key <- function(url) {
+  api_key <- ""
+  if(grepl("canarias", url, fixed=TRUE)) {
+    api_key <- ISTAC_API_KEY
+  }
+  if(grepl("ibestat", url, fixed=TRUE)) {
+    api_key <- IBESTAT_API_KEY
+  }
+  return(api_key)
+}
+
 get_content <- function(url) {
 
   content <- NULL
 
   tryCatch(
-    # TODO revisar lectura config
-    #if(DEBUG) {
-    #  print(url)
-    #}
-
     # Try to get content JSON from ISTAC api
     expr = {
-      content <- fromJSON(url)
+      httpResponse <- GET(url, add_headers("api-key" = get_api_key(url)), accept_json())
+      content <- fromJSON(content(httpResponse, "text"))
     },
     # Catch errors
     error = function(e){
@@ -116,7 +126,14 @@ convert_api_response_to_dataframe <- function(api_response) {
   dimension_codes <- dimension_codes[,ncol(dimension_codes):1]
   names(dimension_codes) <- dimensions$dimensionId
 
-  data.frame(dimension_codes, observations)
+  result = data.frame(dimension_codes, observations)
+  if ("attributes" %in% names(api_response[["data"]])) {
+    for(attribute_index in 1:nrow(api_response[["data"]][["attributes"]][["attribute"]]["id"])) {
+        result[api_response[["data"]][["attributes"]][["attribute"]][["id"]][attribute_index]] = strsplit(api_response[["data"]][["attributes"]][["attribute"]][["value"]][attribute_index], "\\|")[[1]]
+    }
+  }
+
+  result
 }
 
 convert_indicators_api_response_to_dataframe <- function(api_response) {
@@ -137,9 +154,18 @@ convert_indicators_api_response_to_dataframe <- function(api_response) {
     }
   }
   dimension_codes <- dimension_codes[,ncol(dimension_codes):1]
-  names(dimension_codes) <- dimensions$dimensionId
 
   data.frame(dimension_codes, observations)
+}
+
+convert_codelists_api_response_to_dataframe <- function(api_response, lang) {
+  codes = api_response[["code"]]
+  result = data.frame()
+  for(code_index in 1:nrow(codes)) {
+    lang_index = which(codes[['name']][['text']][[code_index]]['lang'] == lang)
+    result <- rbind(result, data.frame(id = codes[['id']][[code_index]], name = codes[['name']][['text']][[code_index]][['value']][lang_index]))
+  }
+  result
 }
 
 build_resolved_api_response <- function(api_response) {
@@ -158,4 +184,17 @@ build_resolved_indicators_api_response <- function(api_response) {
       codelists = get_codelists_from_indicators_api_response(api_response)
     )
   )
+}
+
+build_resolved_codelists_api_response <- function(api_response_list, lang) {
+  codelist = data.frame()
+  for (api_response in api_response_list) {
+    codelist = rbind(codelist, convert_codelists_api_response_to_dataframe(api_response, lang))
+  }
+  codelist
+}
+
+change_api_url <- function(api_root_url) {
+  API_ROOT_URL <<- api_root_url
+  return(API_ROOT_URL)
 }
